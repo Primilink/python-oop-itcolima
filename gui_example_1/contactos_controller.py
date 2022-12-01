@@ -1,4 +1,4 @@
-from contactos_view import ContactosView
+from contactos_view import ContactosView, ContactoNuevo
 
 
 class ContactosController(object):
@@ -10,3 +10,5 @@ class ContactosController(object):
 
     def create_contact(self):
         print("Función create_contact")
+        nuevo_contacto = ContactoNuevo(self.view)
+        nuevo_contacto.show()
