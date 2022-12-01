@@ -25,6 +25,12 @@ class ContactoNuevo(tk.Toplevel):
         super().__init__(parent)
         self.form = ContactosForm(self)
         self.form.pack(padx=10, pady=10)
+        self.button_add = tk.Button(self, text='Agregar Contacto',
+                                    command=self.confirm)
+        self.button_add.pack()
+
+    def confirm(self):
+        print("Are you sure about that?")
 
     def show(self):
         self.grab_set()
