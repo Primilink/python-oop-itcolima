@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.messagebox as mb
+from contactos import Contacto
 
 
 class ContactosList(tk.Frame):
@@ -34,10 +35,19 @@ class ContactosForm(tk.LabelFrame):
         entry.grid(row=position, column=1, pady=10)
         return entry
 
+    def get_data(self):
+        values = [e.get() for e in self.entries]
+        print("Values: ", values)
+        try:
+            return Contacto(*values)
+        except ValueError as e:
+            tk.messagebox.showerror('Error', str(e), parent=self)
+
 
 class ContactoNuevo(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
+        self.contact = None
         self.form = ContactosForm(self)
         self.form.pack(padx=10, pady=10)
         self.button_add = tk.Button(self, text='Agregar Contacto',
@@ -46,10 +56,15 @@ class ContactoNuevo(tk.Toplevel):
 
     def confirm(self):
         print("Are you sure about that?")
+        self.contact = self.form.get_data()
+        if self.contact:
+            self.destroy()
 
     def show(self):
         self.grab_set()
         self.wait_window()
+
+        return self.contact
 
 
 class ActualizarContactosForm(ContactosForm):
