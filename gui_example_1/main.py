@@ -1,6 +1,7 @@
 import sqlite3
 from contactos_view import ContactosView
 from contactos_controller import ContactosController
+from contactos_repository import ContactsRepository
 
 
 def main():
@@ -13,8 +14,9 @@ def main():
         # print result
         if c.fetchone()[0] == 1:
             print('Table exists.')
+            repo = ContactsRepository(conn)
             view = ContactosView()
-            controller = ContactosController(view)
+            controller = ContactosController(repo, view)
             view.set_controller(controller)
             controller.start()
         else:

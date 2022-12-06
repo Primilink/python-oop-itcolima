@@ -14,6 +14,7 @@ class ContactosList(tk.Frame):
         self.list.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
 
     def insert(self, contacto, index=tk.END):
+        print(f'{contacto.first_name} {contacto.last_name} {contacto.phone} {contacto.email} {contacto.rowid}')
         text = '{}, {}'.format(contacto.last_name, contacto.first_name)
         self.list.insert(index, text)
 
@@ -37,7 +38,7 @@ class ContactosForm(tk.LabelFrame):
 
     def get_data(self):
         values = [e.get() for e in self.entries]
-        print("Values: ", values)
+        #print("Values: ", values)
         try:
             return Contacto(*values)
         except ValueError as e:
@@ -101,3 +102,6 @@ class ContactosView(tk.Tk):
         self.update_form.button_save.config(command=controller.update_contact)
         self.update_form.button_delete.config(
             command=controller.delete_contact)
+
+    def add_contact(self, contact):
+        self.list.insert(contact)
