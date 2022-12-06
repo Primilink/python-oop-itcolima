@@ -51,8 +51,7 @@ class ContactoNuevo(tk.Toplevel):
         self.contact = None
         self.form = ContactosForm(self)
         self.form.pack(padx=10, pady=10)
-        self.button_add = tk.Button(self, text='Agregar Contacto',
-                                    command=self.confirm)
+        self.button_add = tk.Button(self, text='Agregar Contacto', command=self.confirm)
         self.button_add.pack()
 
     def confirm(self):
@@ -100,8 +99,7 @@ class ContactosView(tk.Tk):
         self.button_new.config(command=controller.create_contact)
 
         self.update_form.button_save.config(command=controller.update_contact)
-        self.update_form.button_delete.config(
-            command=controller.delete_contact)
+        self.update_form.button_delete.config(command=controller.delete_contact)
 
     def add_contact(self, contact):
         self.list.insert(contact)
