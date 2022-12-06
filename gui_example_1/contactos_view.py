@@ -56,9 +56,11 @@ class ActualizarContactosForm(ContactosForm):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
         self.button_save = tk.Button(self, text='Guardar')
+        self.button_save.config(bg='green', fg='white')
         self.button_save.pack(side=tk.RIGHT, ipadx=5, padx=10, pady=10)
 
         self.button_delete = tk.Button(self, text='Eliminar')
+        self.button_delete.config(bg='red', fg='white')
         self.button_delete.pack(side=tk.RIGHT, ipadx=5, padx=10, pady=10)
 
 
@@ -66,7 +68,7 @@ class ContactosView(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Contactos")
-        self.geometry("500x500")
+        # self.geometry("500x500")
         self.resizable(0, 0)
 
         self.button_new = tk.Button(self, text="Nuevo contacto")
@@ -80,3 +82,7 @@ class ContactosView(tk.Tk):
 
     def set_controller(self, controller):
         self.button_new.config(command=controller.create_contact)
+
+        self.update_form.button_save.config(command=controller.update_contact)
+        self.update_form.button_delete.config(
+            command=controller.delete_contact)

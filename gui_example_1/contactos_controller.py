@@ -12,3 +12,9 @@ class ContactosController(object):
         print("Función create_contact")
         nuevo_contacto = ContactoNuevo(self.view)
         nuevo_contacto.show()
+
+    def update_contact(self):
+        print("Función update_contact")
+
+    def delete_contact(self):
+        print("Función delete_contact")
