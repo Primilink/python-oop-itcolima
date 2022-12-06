@@ -14,9 +14,20 @@ class ContactosList(tk.Frame):
         self.list.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
 
     def insert(self, contacto, index=tk.END):
-        print(f'{contacto.first_name} {contacto.last_name} {contacto.phone} {contacto.email} {contacto.rowid}')
+        # print(f'{contacto.first_name} {contacto.last_name} {contacto.phone} {contacto.email} {contacto.rowid}')
         text = '{}, {}'.format(contacto.last_name, contacto.first_name)
         self.list.insert(index, text)
+
+    def delete(self, index):
+        self.list.delete(index, index)
+
+    def update(self, contacto, index):
+        self.delete(index)
+        self.insert(contacto, index)
+
+    def double_click(self, callback):
+        def handler(_): return callback(self.list.curselection()[0])
+        self.list.bind('<Double-Button-1>', handler)
 
 
 class ContactosForm(tk.LabelFrame):
@@ -43,6 +54,16 @@ class ContactosForm(tk.LabelFrame):
             return Contacto(*values)
         except ValueError as e:
             tk.messagebox.showerror('Error', str(e), parent=self)
+
+    def load_details(self, contact):
+        values = (contact.last_name, contact.first_name, contact.phone, contact.email)
+        for entry, value in zip(self.entries, values):
+            entry.delete(0, tk.END)
+            entry.insert(0, value)
+
+    def clear(self):
+        for entry in self.entries:
+            entry.delete(0, tk.END)
 
 
 class ContactoNuevo(tk.Toplevel):
@@ -101,5 +122,20 @@ class ContactosView(tk.Tk):
         self.update_form.button_save.config(command=controller.update_contact)
         self.update_form.button_delete.config(command=controller.delete_contact)
 
+        self.list.double_click(controller.select_contact)
+
     def add_contact(self, contact):
         self.list.insert(contact)
+
+    def update_contact(self, contact, index):
+        self.list.update(contact, index)
+
+    def delete_contact(self, index):
+        self.update_form.clear()
+        self.list.delete(index)
+
+    def get_data(self):
+        return self.update_form.get_data()
+
+    def load_details(self, contact):
+        self.update_form.load_details(contact)

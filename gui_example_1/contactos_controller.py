@@ -6,6 +6,7 @@ class ContactosController(object):
         self.repo = repo
         self.view = view
         self.contacts = list(repo.get_contacts())
+        self.selection = None
 
     def start(self):
         for c in self.contacts:
@@ -20,8 +21,26 @@ class ContactosController(object):
             self.contacts.append(contact)
             self.view.add_contact(contact)
 
+    def select_contact(self, index):
+        self.selection = index
+        contact = self.contacts[index]
+        self.view.load_details(contact)
+
     def update_contact(self):
-        print("Función update_contact")
+        if not self.selection:
+            return
+        rowid = self.contacts[self.selection].rowid
+        update_contact = self.view.get_data()
+        update_contact.rowid = rowid
+
+        contact = self.repo.update_contact(update_contact)
+        self.contacts[self.selection] = contact
+        self.view.update_contact(contact, self.selection)
 
     def delete_contact(self):
-        print("Función delete_contact")
+        if not self.selection:
+            return
+
+        contact = self.contacts[self.selection]
+        self.repo.delete_contact(contact)
+        self.view.delete_contact(self.selection)

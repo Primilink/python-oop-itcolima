@@ -27,8 +27,10 @@ class ContactsRepository(object):
     def update_contact(self, contacto):
         sql = "UPDATE contacts SET last_name = ?, first_name = ?, phone = ?, email = ? WHERE rowid = ?"
         with self.conn:
-            self.conn.execute(sql, self.to_values(
-                contacto) + (contacto.rowid,))
+            self.conn.execute(sql, self.to_values(contacto) + (contacto.rowid,))
+            if self.conn.total_changes == 1:
+                print("Contacto actualizado")
+        return contacto
 
     def delete_contact(self, contacto):
         sql = "DELETE FROM contacts WHERE rowid = ?"
